@@ -1,0 +1,2 @@
+normal attack
+heavy attack
