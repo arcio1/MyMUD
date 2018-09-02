@@ -8,10 +8,10 @@ const attackStatsModifier = (attackAttributes, characterAttributes) => {
   })
   return totalModifier
 }
-
+ 
 
 class Player {
-  constructor (name, strength, dexterity, stamina, hp){
+  constructor (name, strength, dexterity, stamina, hp, exp, level){
     this.name = name;
     this.attributes = {
       [ATTRIBUTES.STRENGTH]: 1,
@@ -21,7 +21,28 @@ class Player {
     }
     this.attack = 1;
     this.hp = 10;
+    this.exp = 0;
+    this.level = 1;
+    this.nextLevelExp = 20;
+    this.equipment = [{name:'wyjebany miecz'}, {name:'super wyjebany miecz'}, {name:'ULTRA super wyjebany miecz'}, {name:'ULTRA SUPER EXTRA AMAZING BEAUTIFUL NINJA STORM WYJEBANY MIECZOR '}]
   }
+  
+  addExp(exp){
+   this.exp += exp
+   if (this.exp >= this.nextLevelExp) {
+    this.levelup()
+   }
+  }
+
+  addItemToEquipment(item) {
+    this.equipment.push(item)
+  }
+
+  levelup(){
+      this.level++
+      this.nextLevelExp += 20;
+  }
+
   updateStats() {
     DOM.playerStats.name.innerHTML = this.name 
     DOM.playerStats.strength.innerHTML =  `STR = ${this.attributes[ATTRIBUTES.STRENGTH]}` 
@@ -29,6 +50,8 @@ class Player {
     DOM.playerStats.dexterity.innerHTML = `DEX = ${this.attributes[ATTRIBUTES.DEXTERITY]}`
     DOM.playerStats.hp.innerHTML = `HP = ${this.hp}`
     DOM.playerStats.speed.innerHTML = `SP = ${this.attributes[ATTRIBUTES.SPEED]}`
+    DOM.playerStats.exp.innerHTML = `EXP = ${this.exp}`
+    DOM.playerStats.level.innerHTML = `LEVEL = ${this.level}`
   }
   applyDamage(damage) {
     addBattlelog(`Taking ${damage} damage`)
@@ -43,9 +66,8 @@ class Player {
    return Math.floor((Math.random() * faces) + 1)
   }
 
-  attackRoll(chance, damage) {
+  attackRoll(successChance, damage) {
     const roll = this.rollDice(100)
-    const successChance = chance;
     const successfulRoll = roll <= successChance;
     addBattlelog(`Roll Dice: ${roll}:${successChance}`)
     if (successfulRoll) {
@@ -67,7 +89,9 @@ class Player {
       const characterModifier = attackStatsModifier(chance.attributes, this.attributes)
       const hitChance = chance.base + characterModifier
       this.attackRoll(hitChance, this.attack * damageModifier);
-      enemy.hitPlayer(enemy[ATTRIBUTES.STRENGTH])  
+      if(enemy.hitPlayer) {
+        enemy.hitPlayer(enemy[ATTRIBUTES.STRENGTH])  
+      }
     }
     else {
       const characterModifier = attackStatsModifier(chance.attributes, this.attributes)

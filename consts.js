@@ -64,6 +64,7 @@ const ENEMIES = {
     stamina: 5,
     hp: 5,
     speed: 2,
+    exp: 10
   },
   DEMON: {
     
