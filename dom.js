@@ -14,6 +14,7 @@ const DOM = {
     exp: window.document.getElementById("exp-value"),
     level: window.document.getElementById("player-level")
   },
+  equipment: window.document.getElementById("equipment"),
   enemyStats: {
     name: window.document.getElementById("enemy-name"),
     strength: window.document.getElementById("enemy-strength"),

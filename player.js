@@ -8,7 +8,6 @@ const attackStatsModifier = (attackAttributes, characterAttributes) => {
   })
   return totalModifier
 }
- 
 
 class Player {
   constructor (name, strength, dexterity, stamina, hp, exp, level){
@@ -52,6 +51,12 @@ class Player {
     DOM.playerStats.speed.innerHTML = `SP = ${this.attributes[ATTRIBUTES.SPEED]}`
     DOM.playerStats.exp.innerHTML = `EXP = ${this.exp}`
     DOM.playerStats.level.innerHTML = `LEVEL = ${this.level}`
+    DOM.equipment.innerHTML = '';
+    this.equipment.forEach(item => {
+      const node = window.document.createElement('p')
+      node.innerHTML = item.name
+      DOM.equipment.append(node)
+    })
   }
   applyDamage(damage) {
     addBattlelog(`Taking ${damage} damage`)
