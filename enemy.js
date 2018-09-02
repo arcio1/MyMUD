@@ -1,19 +1,22 @@
 class Enemy {
   constructor ({name, strength, dexterity, stamina, hp, speed}) {
     this.name = name;
-    this.strength = strength;
-    this.speed = speed;
-    this.stamina = stamina;
-    this.dexterity = dexterity;
+    this.attributes = {
+      [ATTRIBUTES.STRENGTH]: strength,
+      [ATTRIBUTES.DEXTERITY]: dexterity,
+      [ATTRIBUTES.SPEED]: speed,
+      [ATTRIBUTES.STAMINA]: stamina,
+    }
+    this.attack = 1;
     this.hp = hp;
   }
   updateStats() {
     DOM.enemyStats.name.innerHTML = this.name 
-    DOM.enemyStats.strength.innerHTML =  `STR = ${this.strength}` 
-    DOM.enemyStats.stamina.innerHTML = `STA = ${this.stamina}`
-    DOM.enemyStats.dexterity.innerHTML = `DEX = ${this.dexterity}`
+    DOM.enemyStats.strength.innerHTML =  `STR = ${this.attributes[ATTRIBUTES.STRENGTH]}` 
+    DOM.enemyStats.stamina.innerHTML = `STA = ${this.attributes[ATTRIBUTES.STAMINA]}`
+    DOM.enemyStats.dexterity.innerHTML = `DEX = ${this.attributes[ATTRIBUTES.DEXTERITY]}`
     DOM.enemyStats.hp.innerHTML = `HP = ${this.hp}`
-    DOM.enemyStats.speed.innerHTML = `SP = ${this.speed}`
+    DOM.enemyStats.speed.innerHTML = `SP = ${this.attributes[ATTRIBUTES.SPEED]}`
   }
   dismiss() {
     DOM.enemyStats.name.innerHTML = '' 
@@ -28,7 +31,7 @@ class Enemy {
     this.updateStats();
   }
   hitPlayer() {
-    player.applyDamage(this.strength);
+    player.applyDamage(this.attributes[ATTRIBUTES.STRENGTH]);
   }
   takeDamage(damage) {
     addBattlelog(`${this.name} is taking ${damage} damage`)
@@ -39,6 +42,5 @@ class Enemy {
       this.dismiss()
       enemy = {};
     }
-
   }
 }

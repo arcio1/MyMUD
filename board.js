@@ -1,36 +1,3 @@
-const DIRECTIONS = {
-  NORTH: {
-    text: 'north',
-    direction: { x: 0, y: -1}
-  },
-  WEST: {
-    text: 'west',
-    direction: { x: -1, y: 0}
-  },
-  EAST: {
-    text: 'east',
-    direction: { x: 1, y: 0}
-  },
-  SOUTH: {
-    text: 'south',
-    direction: { x: 0, y: 1}
-  },
-}
-
-const ENEMIES = {
-  ORC: {
-    name: `Orc`,
-    
-    strength: 1,
-    dexterity: 0,
-    stamina: 5,
-    hp: 5,
-    speed: 2,
-  },
-  DEMON: {
-    
-  }
-}
 
 const mapDirection = (direction, currentPosition) => ({
     x: currentPosition.x + direction.x,

@@ -21,13 +21,13 @@ const handleInput = (e) => {
     player.updateStats();
     return
   }
-  if (userInput == `normal attack` && enemy.hp > 0) {
+  if (userInput == `na` && enemy.hp > 0) {
     player.attackEnemy(ATTACKS.NORMAL);  
   }
-  if (userInput == `fast attack` && enemy.hp > 0) {
+  if (userInput == `fa` && enemy.hp > 0) {
     player.attackEnemy(ATTACKS.FAST)
   }
-  if (userInput == `heavy attack` && enemy.hp > 0) {
+  if (userInput == `ha` && enemy.hp > 0) {
     player.attackEnemy(ATTACKS.HEAVY)
   }
   switch (userInput.toUpperCase()) {
