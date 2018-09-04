@@ -12,7 +12,8 @@ const DOM = {
     dexterity: window.document.getElementById("dexterity-value"),
     hp: window.document.getElementById("hp-value"),
     exp: window.document.getElementById("exp-value"),
-    level: window.document.getElementById("player-level")
+    level: window.document.getElementById("player-level"),
+    statsPoint: window.document.getElementById("player-stats-points")
   },
   equipment: window.document.getElementById("equipment"),
   enemyStats: {

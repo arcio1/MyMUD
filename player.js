@@ -17,7 +17,7 @@ const EQUIPMENT = {
   }
 }
 class Player {
-  constructor (name, strength, dexterity, stamina, hp, exp, level){
+  constructor (name, strength, dexterity, stamina, hp){
     this.name = name;
     this.attributes = {
       [ATTRIBUTES.STRENGTH]: 1,
@@ -27,17 +27,20 @@ class Player {
     }
     this.attack = 1;
     this.hp = 10;
-    this.exp = 0;
-    this.level = 1;
-    this.nextLevelExp = 20;
+    this.progress = {
+      exp: 0,
+      level: 1,
+      nextLevelExp: 20,
+      statsPoint: 0,
+    }
     this.equipment = [{name:'wyjebany miecz'}, {name:'super wyjebany miecz'}, {name:'ULTRA super wyjebany miecz'}, EQUIPMENT.POTION]
     this.AddExp = this.addExp.bind(this);
     this.AddItemToEquipment = this.addItemToEquipment.bind(this)
   }
   
   addExp(exp){
-   this.exp += exp
-   if (this.exp >= this.nextLevelExp) {
+   this.progress.exp += exp
+   if (this.progress.exp >= this.progress.nextLevelExp) {
     this.levelup()
    }
    this.updateStats();
@@ -49,9 +52,23 @@ class Player {
   }
 
   levelup(){
-      this.level++
-      this.nextLevelExp += 20;
-      
+      this.progress.level++
+      this.progress.nextLevelExp += 20;
+      this.progress.statsPoint++
+  }
+
+  statsIncrease(userInput){
+    const increseAttribute = (attr) => {
+      this.attributes[attr]++;
+      this.progress.statsPoint--
+    }
+    switch (userInput.toLowerCase()) {
+      case 'str+': increseAttribute(ATTRIBUTES.STRENGTH); break
+      case 'dex+': increseAttribute(ATTRIBUTES.DEXTERITY); break
+      case 'sta+': increseAttribute(ATTRIBUTES.STAMINA); break
+      case 'sp+': increseAttribute(ATTRIBUTES.SPEED); break
+    }
+    player.updateStats();
   }
 
   useItem(name){
@@ -70,8 +87,9 @@ class Player {
     DOM.playerStats.dexterity.innerHTML = `DEX = ${this.attributes[ATTRIBUTES.DEXTERITY]}`
     DOM.playerStats.hp.innerHTML = `HP = ${this.hp}`
     DOM.playerStats.speed.innerHTML = `SP = ${this.attributes[ATTRIBUTES.SPEED]}`
-    DOM.playerStats.exp.innerHTML = `EXP = ${this.exp}`
-    DOM.playerStats.level.innerHTML = `LEVEL = ${this.level}`
+    DOM.playerStats.exp.innerHTML = `EXP = ${this.progress.exp}`
+    DOM.playerStats.level.innerHTML = `LEVEL = ${this.progress.level}`
+    DOM.playerStats.statsPoint.innerHTML = `StatP = ${this.progress.statsPoint}`
     DOM.equipment.innerHTML = '';
     this.equipment.forEach(item => {
       const node = window.document.createElement('p')

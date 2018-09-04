@@ -33,6 +33,10 @@ const handleInput = (e) => {
   if (userInput == `use p`) {
     player.useItem('potion')
   }
+  if (player.progress.statsPoint) {
+    player.statsIncrease(userInput)
+  }
+
   switch (userInput.toUpperCase()) {
     case 'W': board.movePlayer(DIRECTIONS.WEST); break
     case 'E': board.movePlayer(DIRECTIONS.EAST); break
