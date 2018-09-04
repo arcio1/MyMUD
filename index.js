@@ -3,7 +3,7 @@ const addBattlelog = (text) => {
   node.innerHTML = text
   DOM.Battlelog.append(node)
 }
-let player = new Player('Artur');
+
 let enemy = {};
 
 const appendText = (text) => {
@@ -29,6 +29,9 @@ const handleInput = (e) => {
   }
   if (userInput == `ha` && enemy.hp > 0) {
     player.attackEnemy(ATTACKS.HEAVY)
+  }
+  if (userInput == `use p`) {
+    player.useItem('potion')
   }
   switch (userInput.toUpperCase()) {
     case 'W': board.movePlayer(DIRECTIONS.WEST); break

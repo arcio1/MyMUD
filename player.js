@@ -9,6 +9,13 @@ const attackStatsModifier = (attackAttributes, characterAttributes) => {
   return totalModifier
 }
 
+const EQUIPMENT = {
+  POTION: {
+    name: `potion`,
+    onUse: 'applyDamage',
+    useArguments: -10
+  }
+}
 class Player {
   constructor (name, strength, dexterity, stamina, hp, exp, level){
     this.name = name;
@@ -23,7 +30,9 @@ class Player {
     this.exp = 0;
     this.level = 1;
     this.nextLevelExp = 20;
-    this.equipment = [{name:'wyjebany miecz'}, {name:'super wyjebany miecz'}, {name:'ULTRA super wyjebany miecz'}, {name:'ULTRA SUPER EXTRA AMAZING BEAUTIFUL NINJA STORM WYJEBANY MIECZOR '}]
+    this.equipment = [{name:'wyjebany miecz'}, {name:'super wyjebany miecz'}, {name:'ULTRA super wyjebany miecz'}, EQUIPMENT.POTION]
+    this.AddExp = this.addExp.bind(this);
+    this.AddItemToEquipment = this.addItemToEquipment.bind(this)
   }
   
   addExp(exp){
@@ -31,15 +40,27 @@ class Player {
    if (this.exp >= this.nextLevelExp) {
     this.levelup()
    }
+   this.updateStats();
   }
 
   addItemToEquipment(item) {
     this.equipment.push(item)
+    this.updateStats();
   }
 
   levelup(){
       this.level++
       this.nextLevelExp += 20;
+      
+  }
+
+  useItem(name){
+    const item = this.equipment.find(i => i.name === name)
+    if(item.onUse) {
+      this[item.onUse](item.useArguments);
+      this.updateStats();
+      this.equipment = this.equipment.filter(i => i.name !== name)
+    }
   }
 
   updateStats() {
@@ -106,4 +127,7 @@ class Player {
     } 
   }
 }
+
+let player = new Player('Artur');
+
 

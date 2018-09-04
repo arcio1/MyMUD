@@ -1,3 +1,6 @@
+const createMapTile = (text, event, eventChance, eventArguments) => ({
+  text, event, eventChance, eventArguments
+})
 
 const mapDirection = (direction, currentPosition) => ({
     x: currentPosition.x + direction.x,
@@ -6,10 +9,11 @@ const mapDirection = (direction, currentPosition) => ({
 
 class Board {
   constructor(){
+    const cmt = createMapTile
     this.map = [
-      [{text: 'lt'}, {text: 'top'}, {text: 'rt'}],
-      [{text: 'left'}, {text: 'center'}, {text: 'right'}],
-      [{text: 'lb'}, {text: 'bot'}, {text: 'rb'}],
+      [cmt('lt', this.beginEncounter, 50), cmt('top', this.beginEncounter, 50), cmt('rt', this.beginEncounter, 1)],
+      [cmt('right', player.AddItemToEquipment, 100, {name:'sword'}), cmt('center', this.beginEncounter, 0), cmt('left', this.beginEncounter, 90)],
+      [cmt('rb', this.beginEncounter, 1), cmt('bottom', player.AddExp, 100, 30), cmt('lb', this.beginEncounter, 1)],
     ]
     this.currentPosition = {x :1, y: 1}
 
@@ -24,8 +28,12 @@ class Board {
     const isInsideMap = y<this.map.length && y>=0 && x<this.map[y].length && x>=0;
     if (isInsideMap) {
       this.currentPosition = newPosition;
-      appendText(`Heading ${directionObject.text}, ${this.map[y][x].text}`) 
-      this.beginEncounter();
+      const tile = this.map[y][x];
+      appendText(`Heading ${directionObject.text}, ${tile.text}`) 
+      if (player.rollDice(100) <= tile.eventChance ){
+        tile.event(tile.eventArguments);
+      }
+      
     } else {
       appendText('Wrong direction') 
     }
